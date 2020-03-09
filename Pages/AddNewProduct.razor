@@ -1,0 +1,55 @@
+﻿
+@page "/addnewproduct"
+
+
+@using BlazorServerInventoryCSSAreasADOnet.Data
+
+@inject ProductService productservice
+@inject NavigationManager NavigationManager
+
+    <EditForm Model="@inventory" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+
+        <DataAnnotationsValidator/>
+       
+       
+        <div class="edit-form">
+            <p>
+                <h3 Id="header1">Add New Product</h3>
+            </p>
+
+            <label Id="label-prod-num">Product Number </label>
+            <InputText Id="input-prod-num" @bind-Value="@inventory.ProductNumber"></InputText>
+            @*<ValidationMessage For="@(() => inventory.ProductNumber)" Id="val-msg-prod-num"/>*@
+           
+
+            <label Id="label-desc">Description </label>
+            <InputText Id="input-desc" @bind-Value="@inventory.Description"></InputText>
+            @*<ValidationMessage For="@(() => inventory.Description)" Id="val-msg-desc" />*@
+
+            <button type="submit" Id="addbutton">Save</button>
+
+            <ValidationSummary Id="val-summary"></ValidationSummary>
+
+        </div>
+
+    </EditForm>
+
+
+@code {
+
+    private string StatusMessage;
+    private string StatusClass;
+
+    Inventory inventory = new Inventory();
+
+    protected void HandleValidSubmit()
+        {
+
+        productservice.AddtoInventory(inventory);
+        NavigationManager.NavigateTo("Customers");
+
+        }
+
+    protected void HandleInvalidSubmit(){}
+
+}
